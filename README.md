@@ -2,9 +2,9 @@
  An example of a simple API using Gorilla/Mux
 
 This API uses an in-memory "database" (which is just a slice of users) and gives
-the client several endpoints to reach the database. Users can be accessed via GET
-request by pure path query. This will return users by ID. So format should be
-localhost:8000/users/001 NOT localhost:8000/users/jeff
+the client several endpoints to reach the database. Users resource can be accessed
+via HTTP GET request by pure URI path variable. This will return users by ID. So, 
+format should be localhost:8000/users/001 NOT localhost:8000/users/jeff
 
 Queries can also be reached by URL encoding. For instance, to search by first name,
 use localhost:8000/users/?first=jeff, or last name with ?last=bezos. A query of
