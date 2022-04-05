@@ -6,7 +6,7 @@ the client several endpoints to reach the database. Users resource can be access
 via HTTP GET request by pure URI path variable. This will return users by ID. So, 
 format should be localhost:8000/users/001 NOT localhost:8000/users/jeff
 
-Queries can also be reached by URL encoding. For instance, to search by first name,
+Client can also search using URI query string. For instance, to search by first name,
 use localhost:8000/users/?first=jeff, or last name with ?last=bezos. A query of
 localhost:8000/users returns all users, while users/ returns 404.
 
