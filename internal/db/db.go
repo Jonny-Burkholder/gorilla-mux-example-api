@@ -1,12 +1,15 @@
 package db
 
 import (
+	"sync"
+
 	"github.com/Jonny-Burkholder/gorilla-mux-example-api/internal/user"
 )
 
 //DB stores users
 type DB struct {
 	DataBase []*user.User `json:"database"`
+	mu       sync.Mutex
 }
 
 //NewDB returns a pointer to a new database
@@ -15,6 +18,7 @@ type DB struct {
 func NewDB() *DB {
 	return &DB{
 		DataBase: make([]*user.User, 0),
+		mu:       sync.Mutex{},
 	}
 }
 
@@ -23,6 +27,8 @@ func NewDB() *DB {
 //that name. If no users are found, it returns
 //an empty slice
 func (db *DB) GetUserByFirstName(name string) []*user.User {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	res := make([]*user.User, 0)
 	for _, user := range db.DataBase {
 		if user.First == name {
@@ -37,6 +43,8 @@ func (db *DB) GetUserByFirstName(name string) []*user.User {
 //that name. If no users are found, it returns
 //an empty slice
 func (db *DB) GetUserByLastName(name string) []*user.User {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	res := make([]*user.User, 0)
 	for _, user := range db.DataBase {
 		if user.Last == name {
@@ -51,6 +59,8 @@ func (db *DB) GetUserByLastName(name string) []*user.User {
 //that name. If no users are found, it returns
 //an empty slice
 func (db *DB) GetUserByID(id string) []*user.User {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	res := make([]*user.User, 0)
 	for _, user := range db.DataBase {
 		if user.ID == id {
@@ -65,6 +75,8 @@ func (db *DB) GetUserByID(id string) []*user.User {
 //the user information is updated. Otherwise,
 //the new user is appended to the database
 func (db *DB) PutUser(user *user.User) {
+	db.mu.Lock()
+	defer db.mu.Unlock()
 	for i, u := range db.DataBase {
 		if u.ID == user.ID {
 			db.DataBase[i] = user
